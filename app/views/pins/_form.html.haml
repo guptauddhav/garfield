@@ -1,0 +1,29 @@
+=	simple_form_for @pin,  html: {multipart: true } do |f|
+	- if @pin.errors.any? 
+		#errors 
+			%h2 
+			= pluralize(@pin.errors.count, "errors") 
+			prevented this Pin from saving
+			%ul 
+				- @pin.errors.full.messages.each do |msg|
+					%l1 = msg  
+	
+
+	.form-group
+		%strong Upload Image
+		%p 
+		= f.file_field :image, input_html: {class: 'form-control'}
+
+	.form-group
+		= f.input :title, input_html: {class: 'form-control'}
+
+	.form-group
+		= f.input :price, input_html: {class: 'form-control'}
+
+	.form-group
+		= f.input :description, input_html: {class: 'form-control'}
+
+	.form-group
+		= f.input :tag_list, label: 'Tags (seperated by commas)', input_html: {class: 'form-control'}
+		
+	= f.button :submit, class: "btn btn-primary"

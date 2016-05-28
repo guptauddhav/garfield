@@ -1,0 +1,33 @@
+#pin_show.row
+	.col-md-8.col-md-offset-2
+		.panel.panel-default
+			.panel-heading.pin_image
+				= image_tag @pin.image.url
+			.panel-body
+				%h1
+					= @pin.title
+					%b.price.pull-right= number_to_currency(@pin.price)
+				%p= @pin.description
+				
+				%br
+				-if !@pin.tag_list.empty?
+					.glyphicon.glyphicon-tag
+					= raw(@pin.tag_list.map { |t| link_to t, tag_path(t)}.join(' , '))
+			.panel-footer
+				.row
+					.col-md-6
+						%p 
+						Submitted by  
+						=@pin.user.email
+
+					.col-md-6
+						.btn-group.pull-right
+							- if user_signed_in?
+								-if current_user == @pin.user
+									= link_to "Edit Pin", edit_pin_path, class: "btn btn-default"
+									= link_to "Delete", pin_path, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-default"
+							= link_to "Back", root_path, class: "btn btn-default"
+							= link_to like_pin_path(@pin), method: :put, class: "btn btn-default" do
+								%span.glyphicon.glyphicon-heart
+								= @pin.get_upvotes.size
+							
