@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160529000429) do
+ActiveRecord::Schema.define(version: 20160529031941) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,13 @@ ActiveRecord::Schema.define(version: 20160529000429) do
   end
 
   add_index "pins", ["user_id"], name: "index_pins_on_user_id", using: :btree
+
+  create_table "reviews", force: :cascade do |t|
+    t.integer  "rating"
+    t.text     "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id"
@@ -79,6 +86,13 @@ ActiveRecord::Schema.define(version: 20160529000429) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+    t.string   "address"
+    t.string   "city"
+    t.string   "zip"
+    t.string   "category"
+    t.string   "contact"
+    t.string   "email"
+    t.string   "phone"
   end
 
   add_index "vendors", ["user_id"], name: "index_vendors_on_user_id", using: :btree

@@ -51,9 +51,9 @@ class VendorsController < ApplicationController
 	private 
 
 	def vendor_params
-		params.require(:vendor).permit(:title, :description, :image, :tag_list)
+		params.require(:vendor).permit(:title, :description, :image, :category, :address, :city, :zip, :contact, :email, :phone , :tag_list)
 	end
-
+ 
 	def find_vendor 
 		@vendor = Vendor.find(params[:id])
 	end 

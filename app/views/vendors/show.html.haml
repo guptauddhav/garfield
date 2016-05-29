@@ -6,6 +6,16 @@
 			.panel-body
 				%h1= @vendor.title
 				%p= @vendor.description			
+				%hr
+				%h4.price Contact Information
+				%p 
+					= @vendor.address 
+					= @vendor.city 
+					= @vendor.zip 
+					%br
+					= @vendor.phone
+					%br 
+					= @vendor.email 
 				%br
 				-if !@vendor.tag_list.empty?
 					.glyphicon.glyphicon-tag
@@ -23,8 +33,7 @@
 								-if current_user == @vendor.user
 									= link_to "Edit vendor", edit_vendor_path, class: "btn btn-default"
 									= link_to "Delete", vendor_path, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-default"
-							= link_to "Back", vendors_path, class: "btn btn-default"
+							= link_to "Back", :back, class: "btn btn-default"
 							= link_to like_vendor_path(@vendor), method: :put, class: "btn btn-default" do
 								%span.glyphicon.glyphicon-heart
 								= @vendor.get_upvotes.size
-							
