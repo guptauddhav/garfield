@@ -1,0 +1,22 @@
+#vendors.transitions-enabled
+	- @vendors.each do |vendor|
+		.box.panel.panel-default
+			= link_to (image_tag vendor.image.url), vendor
+			%h2= link_to vendor.title, vendor	
+			.panel-footer
+				.row
+					.btn-group
+						.btn.btn-collapse.disabled 
+							%span.glyphicon.glyphicon-time
+							= time_ago_in_words(vendor.created_at) 
+							ago
+						= link_to like_vendor_path(vendor), method: :put, class: "btn btn-collapse disabled" do
+							%span.glyphicon.glyphicon-heart
+							= vendor.get_upvotes.size
+						= link_to like_vendor_path(vendor), method: :put, class: "btn btn-collapse disabled" do
+							%span.glyphicon.glyphicon-tag
+							= vendor.tags.size
+				
+
+
+

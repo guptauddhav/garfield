@@ -1,0 +1,30 @@
+#vendor_show.row
+	.col-md-8.col-md-offset-2
+		.panel.panel-default
+			.panel-heading.vendor_image
+				= image_tag @vendor.image.url
+			.panel-body
+				%h1= @vendor.title
+				%p= @vendor.description			
+				%br
+				-if !@vendor.tag_list.empty?
+					.glyphicon.glyphicon-tag
+					= raw(@vendor.tag_list.map { |t| link_to t, tag_path(t)}.join(' , '))
+			.panel-footer
+				.row
+					.col-md-6
+						%p 
+						Submitted by  
+						=@vendor.user.email
+
+					.col-md-6
+						.btn-group.pull-right
+							- if user_signed_in?
+								-if current_user == @vendor.user
+									= link_to "Edit vendor", edit_vendor_path, class: "btn btn-default"
+									= link_to "Delete", vendor_path, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-default"
+							= link_to "Back", vendors_path, class: "btn btn-default"
+							= link_to like_vendor_path(@vendor), method: :put, class: "btn btn-default" do
+								%span.glyphicon.glyphicon-heart
+								= @vendor.get_upvotes.size
+							

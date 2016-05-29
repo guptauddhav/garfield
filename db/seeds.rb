@@ -5,3 +5,7 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+vendors = Vendor.create(title: 'ASUG plumbing',description: 'ASUG plumbing is the best',user_id: '1')
+vendors = Vendor.create(title: 'Graphite marbel',description: 'All your marble needs',user_id: '2')
+vendors = Vendor.create(title: 'Neon Cleaners',description: 'Cleaning at its best',user_id: '3')

@@ -6,7 +6,11 @@ Rails.application.routes.draw do
   		put "like", to: "pins#upvote"
   	end
   end
-  
+  resources :vendors do
+  	member do 
+  		put "like", to: "vendors#upvote"
+  	end
+  end
   root "pins#index" 
 
 end
