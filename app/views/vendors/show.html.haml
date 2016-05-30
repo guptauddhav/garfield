@@ -5,6 +5,14 @@
 				= image_tag @vendor.image.url
 			.panel-body
 				%h1= @vendor.title
+				.row
+					.col-sm-3 
+						<div class="star-rating" data-score= #{@avg_review} ></div> 
+					.col-sm-9.pull-left
+						= @reviews.count
+						Reviews
+					
+				%hr
 				%p= @vendor.description			
 				%hr
 				%h4.price Contact Information
@@ -31,9 +39,47 @@
 						.btn-group.pull-right
 							- if user_signed_in?
 								-if current_user == @vendor.user
-									= link_to "Edit vendor", edit_vendor_path, class: "btn btn-default"
+									= link_to "Edit", edit_vendor_path, class: "btn btn-default"
 									= link_to "Delete", vendor_path, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-default"
 							= link_to "Back", :back, class: "btn btn-default"
 							= link_to like_vendor_path(@vendor), method: :put, class: "btn btn-default" do
 								%span.glyphicon.glyphicon-heart
 								= @vendor.get_upvotes.size
+							= link_to new_vendor_review_path(@vendor), method: :put,class: "btn btn-default" do
+								%span.glyphicon.glyphicon-plus
+								Review
+
+						
+	.col-md-8.col-md-offset-2
+		- if @reviews.count > 0
+			.row 
+				.col-sm-5
+					%h3
+						= pluralize(@reviews.count,"Review") 
+						for this Vendor
+				.col-sm-7
+					
+				
+			%p
+			- @reviews.each do |review|
+				.panel.panel-default
+					.panel-body
+						.row
+							.col-sm-4
+								<div class="star-rating" data-score= #{review.rating} ></div>
+							.col-sm-8.pull-left
+								by	
+								= review.user.email
+								= time_ago_in_words(review.created_at)
+								ago
+						%hr
+						= review.comment 
+
+:javascript
+	$('.star-rating').raty({
+		path: '/assets/',
+		readOnly: true,
+		score: function() {
+			return $(this).attr('data-score');
+		}
+	});
