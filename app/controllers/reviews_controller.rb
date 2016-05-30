@@ -1,6 +1,7 @@
 class ReviewsController < ApplicationController
-  before_filter :load_reviewable
+  before_filter :load_reviewable, except: [:show]
   before_action :authenticate_user!
+  
 
   def new 
     @review = @reviewable.reviews.new
@@ -15,6 +16,10 @@ class ReviewsController < ApplicationController
       render :new
     end
   end 
+
+  def show
+    @review = Review.find(params[:id]) 
+  end
 
   def update 
     @review.update(allowed_params)

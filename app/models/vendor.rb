@@ -1,4 +1,5 @@
 class Vendor < ActiveRecord::Base
+	searchkick match: :word_start, searchable: [:title, :description]
 	acts_as_votable
 	acts_as_taggable
 	belongs_to :user

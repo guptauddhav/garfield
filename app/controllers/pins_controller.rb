@@ -11,6 +11,7 @@ class PinsController < ApplicationController
 	end 
 
 	def show
+		@comments = Comment.where(commentable_type: "Pin", commentable_id: @pin.id).order("created_at DESC")
 	end 
 
 	def new

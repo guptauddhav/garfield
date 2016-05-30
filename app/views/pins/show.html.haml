@@ -30,4 +30,28 @@
 							= link_to like_pin_path(@pin), method: :put, class: "btn btn-default" do
 								%span.glyphicon.glyphicon-heart
 								= @pin.get_upvotes.size
-							
+							= link_to new_pin_comment_path(@pin), method: :put,class: "btn btn-default" do
+								%span.glyphicon.glyphicon-comment
+								= @comments.count
+	.col-md-8.col-md-offset-2
+		- if @comments.count > 0
+			.row 
+				.col-sm-5
+					%h3
+						= pluralize(@comments.count,"Comment") 
+						for this Post
+				.col-sm-7
+					
+				
+			%p
+			- @comments.each do |comment|
+				.panel.panel-default
+					.panel-body
+						.row
+							.col-sm-8.pull-left
+								Comment by -	
+								= comment.user.email
+								= time_ago_in_words(comment.created_at)
+								ago
+						%hr
+						= comment.description 				

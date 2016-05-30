@@ -1,0 +1,58 @@
+.col-md-8.col-md-offset-1
+	.row
+		.panel.panel-default
+			.panel-heading
+				%h1 Search results
+
+			.panel-body		
+				- if !@pins.empty?
+					%h3
+						= pluralize(@pins.count, "Posting") 
+						matched 
+					
+					- @pins.each do |pin|
+						%ul
+							%li= link_to pin.title, pin_path(pin.id)
+
+					%hr 
+				
+				- if !@vendors.empty?
+					%h3
+						= pluralize(@vendors.count, "Vendor") 
+						matched 
+					
+					- @vendors.each do |vendor|
+						%ul
+							%li= link_to vendor.title, vendor_path(vendor.id)
+					%hr 
+
+				- if !@reviews.empty?
+					%h3
+						= pluralize(@reviews.count, "Review") 
+						matched
+					
+					- @reviews.each do |review|
+						%ul
+							%li
+								%p
+									Review for 
+									- if review.reviewable_type = "Vendor"
+										= link_to Vendor.find(review.reviewable_id).title, review_path(review.id) 
+									posted
+									= time_ago_in_words(review.created_at)
+									ago
+
+				- if !@comments.empty?
+					%h3
+						= pluralize(@comments.count, "Comment") 
+						matched
+					
+					- @comments.each do |comment|
+						%ul
+							%li
+								Comment for 
+								- if comment.commentable_type = "Pin"
+									= link_to Pin.find(comment.commentable_id).title, comment_path(comment.id) 
+								posted
+								= time_ago_in_words(comment.created_at)
+								ago

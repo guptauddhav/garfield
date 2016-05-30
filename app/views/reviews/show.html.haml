@@ -1,0 +1,23 @@
+.col-md-8.col-md-offset-2
+	.panel.panel-default
+		.panel-body
+			.row
+				.col-sm-4
+					<div class="star-rating" data-score= #{@review.rating} ></div>
+				.col-sm-8.pull-left
+					by	
+					= @review.user.email
+					= time_ago_in_words(@review.created_at)
+					ago
+				%hr
+			%p
+				= @review.comment 
+
+:javascript
+	$('.star-rating').raty({
+		path: '/assets/',
+		readOnly: true,
+		score: function() {
+			return $(this).attr('data-score');
+		}
+	});

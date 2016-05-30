@@ -1,0 +1,13 @@
+= simple_form_for [@commentable, @comment],  html: {multipart: true } do |f|
+	- if @comment.errors.any? 
+		#errors 
+			%h2 
+			= pluralize(@comment.errors.count, "errors") 
+			prevented this comment from saving
+			%ul 
+				- @comment.errors.full.messages.each do |msg|
+					%l1 = msg  
+	.form-group
+		= f.input :description, input_html: {class: 'form-control'}
+		
+	= f.button :submit, class: "btn btn-primary"
