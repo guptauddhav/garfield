@@ -1,0 +1,22 @@
+#pins.transitions-enabled
+  - @incidents.each do |incident|
+    .box.panel.panel-default
+      - @pictures = Picture.where(pictureable_type: "Incident", pictureable_id: incident.id).order("created_at DESC")
+      - @picture_urls = []
+      - @pictures.each do |picture|
+        - @picture_urls.push(picture.image.url)
+      = carousel_for(@picture_urls)
+      .panel.body 
+        %h3
+          = link_to incident.title, incident_path(incident.id)
+      .panel-footer
+        .row
+          .btn-group
+            .btn.btn-collapse.disabled 
+              %span.glyphicon.glyphicon-time
+              = time_ago_in_words(incident.created_at) 
+              ago
+            = link_to "", method: :put, class: "btn btn-collapse disabled" do
+              %span.glyphicon.glyphicon-tag
+              = incident.tags.size
+

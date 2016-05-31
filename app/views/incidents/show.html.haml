@@ -1,0 +1,61 @@
+#pin_show.row
+	.col-md-8.col-md-offset-2
+		.panel.panel-default
+			.panel-heading.pin_image
+				= carousel_for(@picture_urls)
+			.panel-body
+				%h1
+					= @incident.title
+				%p
+					= @incident.description		
+				%br
+				-if !@incident.tag_list.empty?
+					.glyphicon.glyphicon-tag
+					= raw(@incident.tag_list.map { |t| link_to t, tag_path(t)}.join(' , '))
+			.panel-footer
+				.row
+					.col-md-6
+						%p 
+						Submitted by  
+						= @incident.user.email
+
+					.col-md-6
+						.btn-group.pull-right
+							- if user_signed_in?
+								-if current_user == @incident.user
+									= link_to edit_incident_path,  method: :put,class: "btn btn-default" do
+										%span.glyphicon.glyphicon-edit
+										Edit 
+									= link_to "Delete", incident_path, method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-default"
+								= link_to new_incident_picture_path(@incident), method: :put,class: "btn btn-default" do
+									%span.glyphicon.glyphicon-plus
+									Images
+								= link_to new_incident_comment_path(@incident), method: :put,class: "btn btn-default" do
+									%span.glyphicon.glyphicon-comment
+									= @comments.count
+
+	
+	.col-md-8.col-md-offset-2
+		- if @comments.count > 0
+			.row 
+				.col-sm-5
+					%h3
+						= pluralize(@comments.count,"Comment") 
+						for this Incident
+				.col-sm-7
+					
+				
+			%p
+			- @comments.each do |comment|
+				.panel.panel-default
+					.panel-body
+						.row
+							.col-sm-8.pull-left
+								Comment by -	
+								= comment.user.email
+								= time_ago_in_words(comment.created_at)
+								ago
+						%hr
+						= comment.description 				
+							
+	

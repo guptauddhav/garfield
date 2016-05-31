@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
+  
   devise_for :users
+  root "pins#index"
   get 'tags/:tag', to: 'tags#show', as: :tag
   get 'tags', to: 'tags#index'
   get 'reviews/:id', to: 'reviews#show', as: :review
@@ -18,6 +20,10 @@ Rails.application.routes.draw do
   		put "like", to: "vendors#upvote"
   	end
   end
-  root "pins#index" 
+
+  resources :incidents do
+    resources :comments, except: [:show, :index, :edit]
+    resources :pictures, except: [:index, :edit]
+  end
 
 end

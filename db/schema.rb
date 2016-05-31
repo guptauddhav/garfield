@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160530080026) do
+ActiveRecord::Schema.define(version: 20160531004713) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,32 @@ ActiveRecord::Schema.define(version: 20160530080026) do
     t.integer  "commentable_id"
     t.string   "commentable_type"
   end
+
+  create_table "incidents", force: :cascade do |t|
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "user_id"
+    t.string   "title"
+  end
+
+  add_index "incidents", ["user_id"], name: "index_incidents_on_user_id", using: :btree
+
+  create_table "pictures", force: :cascade do |t|
+    t.integer  "user_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+    t.integer  "pictureable_id"
+    t.string   "pictureable_type"
+  end
+
+  add_index "pictures", ["pictureable_id"], name: "index_pictures_on_pictureable_id", using: :btree
+  add_index "pictures", ["pictureable_type"], name: "index_pictures_on_pictureable_type", using: :btree
+  add_index "pictures", ["user_id"], name: "index_pictures_on_user_id", using: :btree
 
   create_table "pins", force: :cascade do |t|
     t.string   "title"

@@ -6,6 +6,7 @@ class SearchController < ApplicationController
 	def results
 		@vendors = Vendor.search(params[:query])
 		@pins = Pin.search(params[:query])
+		@incidents = Incident.search(params[:query])
 		@reviews = Review.search(params[:query])
 		@comments = Comment.search(params[:query])
 	end

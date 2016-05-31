@@ -24,7 +24,18 @@
 					- @vendors.each do |vendor|
 						%ul
 							%li= link_to vendor.title, vendor_path(vendor.id)
+					%hr
+
+				- if !@incidents.empty?
+					%h3
+						= pluralize(@incidents.count, "Incident") 
+						matched 
+					
+					- @incidents.each do |incident|
+						%ul
+							%li= link_to incident.title, incident_path(incident.id)
 					%hr 
+
 
 				- if !@reviews.empty?
 					%h3
@@ -35,12 +46,13 @@
 						%ul
 							%li
 								%p
-									Review for 
-									- if review.reviewable_type = "Vendor"
+									- if review.reviewable_type == "Vendor"
+										Review for Vendor - 
 										= link_to Vendor.find(review.reviewable_id).title, review_path(review.id) 
 									posted
 									= time_ago_in_words(review.created_at)
 									ago
+					%hr
 
 				- if !@comments.empty?
 					%h3
@@ -50,8 +62,11 @@
 					- @comments.each do |comment|
 						%ul
 							%li
-								Comment for 
-								- if comment.commentable_type = "Pin"
+								- if comment.commentable_type == "Incident"
+									Comment for Incident - 
+									= link_to Incident.find(comment.commentable_id).title, comment_path(comment.id)
+								- elsif comment.commentable_type == "Pin"
+									Comment for Post - 
 									= link_to Pin.find(comment.commentable_id).title, comment_path(comment.id) 
 								posted
 								= time_ago_in_words(comment.created_at)
